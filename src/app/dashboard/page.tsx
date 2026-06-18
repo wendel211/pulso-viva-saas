@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShieldCheck, UploadCloud } from "lucide-react";
+import { Activity, ShieldCheck, UploadCloud } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { getDashboardKpis, getQueueBySpecialty } from "@/lib/queries/dashboard";
@@ -37,6 +37,16 @@ export default async function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <Link
+              href="/dashboard/risco"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "rounded-xl px-4 font-semibold",
+              )}
+            >
+              <Activity className="mr-2 size-4" aria-hidden="true" />
+              Risco de falta
+            </Link>
             <Link
               href="/dashboard/qualidade"
               className={cn(
