@@ -1,0 +1,23 @@
+# Ambiente local de desenvolvimento (doc §7 — arquitetura física).
+# Sobe apenas o Postgres; o app Next.js roda via `npm run dev` no host.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: pulsoviva-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: pulsoviva
+      POSTGRES_PASSWORD: pulsoviva
+      POSTGRES_DB: pulsoviva
+    ports:
+      - "5432:5432"
+    volumes:
+      - pulsoviva_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pulsoviva"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pulsoviva_pgdata:
