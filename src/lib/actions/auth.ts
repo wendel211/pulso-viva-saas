@@ -5,8 +5,13 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 import { db } from "@/db";
-import { users, auditLogs } from "@/db/schema";
-import { LoginFormSchema, type LoginFormState } from "@/lib/definitions";
+import { users, organizations, auditLogs } from "@/db/schema";
+import {
+  LoginFormSchema,
+  SignupFormSchema,
+  type LoginFormState,
+  type SignupFormState,
+} from "@/lib/definitions";
 import { createSession, deleteSession } from "@/lib/session";
 
 export async function login(
@@ -55,6 +60,67 @@ export async function login(
     userId: user.id,
     action: "login",
     resource: "session",
+  });
+
+  redirect("/dashboard");
+}
+
+export async function signup(
+  _state: SignupFormState,
+  formData: FormData,
+): Promise<SignupFormState> {
+  const validated = SignupFormSchema.safeParse({
+    organizationName: formData.get("organizationName"),
+    managerName: formData.get("managerName"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!validated.success) {
+    return { errors: validated.error.flatten().fieldErrors };
+  }
+
+  const { organizationName, managerName, email, password } = validated.data;
+
+  const existing = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.email, email))
+    .limit(1);
+
+  if (existing.length > 0) {
+    return { message: "Já existe uma conta com este e-mail." };
+  }
+
+  const [org] = await db
+    .insert(organizations)
+    .values({ name: organizationName, status: "trial" })
+    .returning();
+
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  const [user] = await db
+    .insert(users)
+    .values({
+      organizationId: org.id,
+      name: managerName,
+      email,
+      passwordHash,
+      role: "org_manager",
+    })
+    .returning();
+
+  await createSession({
+    userId: user.id,
+    organizationId: org.id,
+    role: user.role,
+  });
+
+  await db.insert(auditLogs).values({
+    organizationId: org.id,
+    userId: user.id,
+    action: "signup",
+    resource: "organization",
   });
 
   redirect("/dashboard");
