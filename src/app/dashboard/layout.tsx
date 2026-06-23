@@ -1,5 +1,6 @@
 import { getCurrentUser } from "@/lib/dal";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
+import { DashboardHeader } from "@/components/dashboard/header";
 
 const ROLE_LABELS: Record<string, string> = {
   admin_pulsoviva: "Administrador PulsoViva",
@@ -17,13 +18,22 @@ export default async function DashboardLayout({
   // getCurrentUser() chama verifySession() e redireciona se não autenticado.
   const user = await getCurrentUser();
 
+  const roleLabel = ROLE_LABELS[user?.role ?? ""] ?? "Operador de acesso";
+
   return (
     <div className="flex min-h-screen w-full bg-[#eef2f7] text-[#0f1b2a]">
       <DashboardSidebar
         userName={user?.name ?? "Usuário"}
-        userRoleLabel={ROLE_LABELS[user?.role ?? ""] ?? "Operador de acesso"}
+        userRoleLabel={roleLabel}
       />
-      <main className="min-w-0 flex-1">{children}</main>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <DashboardHeader
+          userName={user?.name ?? "Usuário"}
+          userRoleLabel={roleLabel}
+          userEmail={user?.email}
+        />
+        <main className="min-w-0 flex-1">{children}</main>
+      </div>
     </div>
   );
 }

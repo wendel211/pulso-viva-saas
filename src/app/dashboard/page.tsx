@@ -23,14 +23,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex flex-col">
-      <header className="sticky top-0 z-10 border-b border-[#e2e8f0] bg-[#eef2f7]/85 px-8 py-6 backdrop-blur-sm">
-        <h1 className="text-xl font-extrabold tracking-tight">Visão geral</h1>
+      <div className="px-8 pt-8">
+        <h1 className="text-2xl font-semibold tracking-tight">Visão geral</h1>
         <p className="mt-0.5 text-sm text-zinc-500">
           Bem-vindo, {user?.name ?? "operador"}.
         </p>
-      </header>
+      </div>
 
-      <div className="flex flex-col gap-6 p-8">
+      <div className="flex flex-col gap-6 p-8 pt-6">
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Kpi label="Em fila" value={kpis.queueTotal} />
           <Kpi label="Pacientes" value={kpis.patients} />
