@@ -22,10 +22,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen w-full bg-[#eef2f7] text-[#0f1b2a]">
-      <DashboardSidebar
-        userName={user?.name ?? "Usuário"}
-        userRoleLabel={roleLabel}
-      />
+      <DashboardSidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <DashboardHeader
           userName={user?.name ?? "Usuário"}

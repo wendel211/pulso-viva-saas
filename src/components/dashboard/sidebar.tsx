@@ -9,13 +9,10 @@ import {
   HeartPulse,
   LayoutDashboard,
   ListChecks,
-  LogOut,
   Settings,
   ShieldCheck,
   UploadCloud,
 } from "lucide-react";
-
-import { logout } from "@/lib/actions/auth";
 
 type NavItem = { label: string; href: string; icon: React.ComponentType<{ className?: string }> };
 
@@ -59,21 +56,8 @@ function GroupLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function DashboardSidebar({
-  userName,
-  userRoleLabel,
-}: {
-  userName: string;
-  userRoleLabel: string;
-}) {
+export function DashboardSidebar() {
   const pathname = usePathname();
-  const initials =
-    userName
-      .split(" ")
-      .map((n) => n[0])
-      .slice(0, 2)
-      .join("")
-      .toUpperCase() || "PV";
 
   return (
     <aside className="sticky top-0 flex h-screen w-[262px] flex-none flex-col bg-gradient-to-b from-[#0b1622] via-[#0c1a28] to-[#0a1622] px-[18px] py-[26px] text-[#cdd8e4]">
@@ -113,26 +97,6 @@ export function DashboardSidebar({
           <NavLink key={item.href} item={item} active={pathname === item.href} />
         ))}
       </nav>
-
-      <form action={logout} className="mt-auto">
-        <button
-          type="submit"
-          className="flex w-full items-center gap-3 rounded-[14px] border border-[#16293a] bg-white/[0.02] px-3 py-[11px] text-left transition-colors hover:bg-white/5"
-        >
-          <span className="flex size-[38px] shrink-0 items-center justify-center rounded-full border border-[#244a58] bg-[#11303d] text-[13px] font-bold tracking-[.3px] text-[#2dd4bf]">
-            {initials}
-          </span>
-          <span className="min-w-0 flex-1 leading-[1.35]">
-            <span className="block truncate text-[13px] font-bold text-[#e8eef4]">
-              {userName}
-            </span>
-            <span className="block truncate text-[11px] text-[#5e7689]">
-              {userRoleLabel}
-            </span>
-          </span>
-          <LogOut className="size-4 shrink-0 text-[#5e7689]" aria-hidden="true" />
-        </button>
-      </form>
     </aside>
   );
 }

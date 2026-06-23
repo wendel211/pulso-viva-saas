@@ -9,8 +9,8 @@ type DashboardHeaderProps = {
 };
 
 /**
- * Topbar do painel — conecta visualmente com a sidebar (mesma linha do topo).
- * Exibe quem está logado e um botão de sair no canto superior direito.
+ * Topbar do painel — usa as cores da sidebar (navy escuro) para formar uma
+ * faixa contínua no topo. Exibe quem está logado e um botão de sair à direita.
  */
 export function DashboardHeader({
   userName,
@@ -26,27 +26,27 @@ export function DashboardHeader({
       .toUpperCase() || "PV";
 
   return (
-    <header className="sticky top-0 z-20 flex h-[68px] items-center justify-end gap-4 border-b border-[#e2e8f0] bg-[#eef2f7]/85 px-8 backdrop-blur-sm">
+    <header className="sticky top-0 z-20 flex h-[68px] items-center justify-end gap-4 border-b border-[#16293a] bg-gradient-to-r from-[#0b1622] to-[#0c1a28] px-8 text-[#cdd8e4]">
       <div className="flex items-center gap-3">
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[#cfe6e2] bg-[#e6fbf8] text-[13px] font-bold tracking-[.3px] text-[#0a9f93]">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[#244a58] bg-[#11303d] text-[13px] font-bold tracking-[.3px] text-[#2dd4bf]">
           {initials}
         </span>
         <span className="hidden min-w-0 flex-col leading-tight sm:flex">
-          <span className="truncate text-[13.5px] font-bold text-[#0f1b2a]">
+          <span className="truncate text-[13.5px] font-bold text-[#e8eef4]">
             {userName}
           </span>
-          <span className="truncate text-[11.5px] text-[#64748b]">
+          <span className="truncate text-[11.5px] text-[#5e7689]">
             {userEmail ?? userRoleLabel}
           </span>
         </span>
       </div>
 
-      <div className="h-7 w-px bg-[#e2e8f0]" aria-hidden="true" />
+      <div className="h-7 w-px bg-[#16293a]" aria-hidden="true" />
 
       <form action={logout}>
         <button
           type="submit"
-          className="inline-flex items-center gap-2 rounded-xl border border-[#e2e8f0] bg-white px-4 py-2.5 text-sm font-semibold text-[#475569] transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+          className="inline-flex items-center gap-2 rounded-xl border border-[#16293a] bg-white/[0.03] px-4 py-2.5 text-sm font-semibold text-[#9fb2c2] transition-colors hover:border-[#5c2b2e] hover:bg-[#2a1215] hover:text-[#ff8a80]"
         >
           <LogOut className="size-4" aria-hidden="true" />
           Sair
