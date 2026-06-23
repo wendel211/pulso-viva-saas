@@ -1,13 +1,4 @@
-import Link from "next/link";
-import {
-  Activity,
-  CalendarCheck,
-  Download,
-  Gauge,
-  HeartPulse,
-  ShieldCheck,
-  UploadCloud,
-} from "lucide-react";
+import { Download } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { getDashboardKpis, getQueueBySpecialty } from "@/lib/queries/dashboard";
@@ -33,9 +24,7 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col">
       <header className="sticky top-0 z-10 border-b border-[#e2e8f0] bg-[#eef2f7]/85 px-8 py-6 backdrop-blur-sm">
-        <h1 className="text-xl font-extrabold tracking-tight">
-          Visão geral
-        </h1>
+        <h1 className="text-xl font-extrabold tracking-tight">Visão geral</h1>
         <p className="mt-0.5 text-sm text-zinc-500">
           Bem-vindo, {user?.name ?? "operador"}.
         </p>
@@ -51,9 +40,9 @@ export default async function DashboardPage() {
           <Kpi label="Cancelamentos" value={kpis.cancellations} />
         </section>
 
-        <section className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+        <section className="rounded-[20px] border border-[#eaeff5] bg-white p-6 shadow-[0_1px_3px_rgba(15,27,42,0.04)]">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-zinc-900">
+            <h2 className="text-sm font-bold text-zinc-900">
               Fila por especialidade
             </h2>
             <a

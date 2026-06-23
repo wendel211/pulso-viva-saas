@@ -79,6 +79,16 @@ export const actionTaskStatusEnum = pgEnum("action_task_status", [
 // Tabelas
 // ---------------------------------------------------------------------------
 
+/** Configurações por organização (RF17) — pesos do ranking de encaixe. */
+export type OrgSettings = {
+  rankingWeights?: {
+    waitTime: number;
+    priority: number;
+    reliability: number;
+    contact: number;
+  };
+};
+
 export const organizations = pgTable("organizations", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
@@ -86,6 +96,7 @@ export const organizations = pgTable("organizations", {
   cnpj: text("cnpj"),
   plan: text("plan").default("pilot"),
   status: orgStatusEnum("status").notNull().default("trial"),
+  settings: jsonb("settings").$type<OrgSettings>(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

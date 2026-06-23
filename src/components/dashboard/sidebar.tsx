@@ -8,7 +8,9 @@ import {
   Gauge,
   HeartPulse,
   LayoutDashboard,
+  ListChecks,
   LogOut,
+  Settings,
   ShieldCheck,
   UploadCloud,
 } from "lucide-react";
@@ -19,6 +21,7 @@ type NavItem = { label: string; href: string; icon: React.ComponentType<{ classN
 
 const OPERATION_ITEMS: NavItem[] = [
   { label: "Painel geral", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Filas", href: "/dashboard/filas", icon: ListChecks },
   { label: "Importar dados", href: "/dashboard/importar", icon: UploadCloud },
   { label: "Qualidade dos dados", href: "/dashboard/qualidade", icon: ShieldCheck },
   { label: "Encaixe inteligente", href: "/dashboard/encaixe", icon: CalendarCheck },
@@ -28,6 +31,7 @@ const INTELLIGENCE_ITEMS: NavItem[] = [
   { label: "Risco de falta", href: "/dashboard/risco", icon: Activity },
   { label: "Previsão de gargalo", href: "/dashboard/gargalos", icon: Gauge },
   { label: "Impacto sustentável", href: "/dashboard/impacto", icon: HeartPulse },
+  { label: "Configurações", href: "/dashboard/configuracoes", icon: Settings },
 ];
 
 function NavLink({ item, active }: { item: NavItem; active: boolean }) {
