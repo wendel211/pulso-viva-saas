@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { Activity, CalendarCheck, ShieldCheck, UploadCloud } from "lucide-react";
+import {
+  Activity,
+  CalendarCheck,
+  Gauge,
+  HeartPulse,
+  ShieldCheck,
+  UploadCloud,
+} from "lucide-react";
 
 import { getCurrentUser } from "@/lib/dal";
 import { getDashboardKpis, getQueueBySpecialty } from "@/lib/queries/dashboard";
@@ -37,6 +44,26 @@ export default async function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <Link
+              href="/dashboard/impacto"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "rounded-xl px-4 font-semibold",
+              )}
+            >
+              <HeartPulse className="mr-2 size-4" aria-hidden="true" />
+              Impacto
+            </Link>
+            <Link
+              href="/dashboard/gargalos"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "rounded-xl px-4 font-semibold",
+              )}
+            >
+              <Gauge className="mr-2 size-4" aria-hidden="true" />
+              Gargalos
+            </Link>
             <Link
               href="/dashboard/encaixe"
               className={cn(
