@@ -8,7 +8,7 @@ import { decrypt } from "@/lib/session";
  * forte ocorre no DAL (`verifySession`), próximo aos dados.
  */
 const protectedPrefixes = ["/dashboard"];
-const publicRoutes = ["/login", "/signup", "/"];
+const publicRoutes = ["/login", "/signup", "/recuperar-senha", "/"];
 
 export default async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname;
