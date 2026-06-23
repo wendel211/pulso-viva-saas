@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Valores fictícios: suficientes para satisfazer os guards de
+      # inicialização do app (postgres.js não conecta de fato no load do
+      # módulo); nenhuma query real roda durante o build/typecheck.
+      DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
+      SESSION_SECRET: "ci-only-secret-not-used-in-production"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
