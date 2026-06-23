@@ -2,12 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 
+import { and, eq } from "drizzle-orm";
+
 import { db } from "@/db";
 import {
   importBatches,
   patients,
   accessRequests,
   appointments,
+  units,
   auditLogs,
 } from "@/db/schema";
 import { verifySession } from "@/lib/dal";
@@ -70,6 +73,32 @@ export async function importSpreadsheet(
     })
     .returning();
 
+  // Cache de unidades por nome para evitar duplicar e reduzir queries.
+  const unitCache = new Map<string, string>();
+  async function resolveUnitId(name: string | undefined): Promise<string | undefined> {
+    const key = name?.trim();
+    if (!key) return undefined;
+    const cached = unitCache.get(key.toLowerCase());
+    if (cached) return cached;
+
+    const existing = await db
+      .select({ id: units.id })
+      .from(units)
+      .where(and(eq(units.organizationId, orgId), eq(units.name, key)))
+      .limit(1);
+
+    let unitId = existing[0]?.id;
+    if (!unitId) {
+      const [created] = await db
+        .insert(units)
+        .values({ organizationId: orgId, name: key })
+        .returning({ id: units.id });
+      unitId = created.id;
+    }
+    unitCache.set(key.toLowerCase(), unitId);
+    return unitId;
+  }
+
   // Normaliza e grava cada linha válida no Hub.
   let imported = 0;
   for (const row of parsed.rows) {
@@ -101,10 +130,12 @@ export async function importSpreadsheet(
       requestId = req.id;
     }
 
-    if (row.scheduledAt || row.professional || row.status) {
+    if (row.scheduledAt || row.professional || row.status || row.unit) {
+      const unitId = await resolveUnitId(row.unit);
       await db.insert(appointments).values({
         organizationId: orgId,
         requestId,
+        unitId,
         scheduledAt: row.scheduledAt,
         professional: row.professional,
         status:
