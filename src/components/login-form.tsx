@@ -134,10 +134,10 @@ export function LoginForm() {
       <p className="text-center text-sm text-zinc-600">
         Não tem acesso?{" "}
         <a
-          href="/implantacao"
+          href="/signup"
           className="font-semibold text-[#10bfb3] transition-colors hover:text-[#08978d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#22d6c8]/35"
         >
-          Falar com implantação
+          Criar organização
         </a>
       </p>
     </section>
