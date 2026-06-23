@@ -1,22 +1,9 @@
-import Link from "next/link";
-import {
-  Activity,
-  CalendarCheck,
-  Gauge,
-  HeartPulse,
-  ShieldCheck,
-  UploadCloud,
-} from "lucide-react";
-
 import { getCurrentUser } from "@/lib/dal";
 import { getDashboardKpis, getQueueBySpecialty } from "@/lib/queries/dashboard";
-import { logout } from "@/lib/actions/auth";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 function Kpi({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-black/5 bg-white p-5 shadow-sm">
+    <div className="rounded-[18px] border border-[#eaeff5] bg-white p-5 shadow-[0_1px_3px_rgba(15,27,42,0.04)]">
       <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">
         {label}
       </p>
@@ -26,7 +13,6 @@ function Kpi({ label, value }: { label: string; value: number }) {
 }
 
 export default async function DashboardPage() {
-  // verifySession() roda dentro de getCurrentUser e redireciona se não autenticado.
   const [user, kpis, bySpecialty] = await Promise.all([
     getCurrentUser(),
     getDashboardKpis(),
@@ -34,85 +20,18 @@ export default async function DashboardPage() {
   ]);
 
   return (
-    <main className="min-h-screen bg-[#eef2f7] px-6 py-10 text-zinc-950">
-      <div className="mx-auto max-w-5xl">
-        <header className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold">Dashboard geral</h1>
-            <p className="mt-1 text-sm text-zinc-600">
-              Bem-vindo, {user?.name ?? "operador"}.
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/dashboard/impacto"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "rounded-xl px-4 font-semibold",
-              )}
-            >
-              <HeartPulse className="mr-2 size-4" aria-hidden="true" />
-              Impacto
-            </Link>
-            <Link
-              href="/dashboard/gargalos"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "rounded-xl px-4 font-semibold",
-              )}
-            >
-              <Gauge className="mr-2 size-4" aria-hidden="true" />
-              Gargalos
-            </Link>
-            <Link
-              href="/dashboard/encaixe"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "rounded-xl px-4 font-semibold",
-              )}
-            >
-              <CalendarCheck className="mr-2 size-4" aria-hidden="true" />
-              Encaixe inteligente
-            </Link>
-            <Link
-              href="/dashboard/risco"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "rounded-xl px-4 font-semibold",
-              )}
-            >
-              <Activity className="mr-2 size-4" aria-hidden="true" />
-              Risco de falta
-            </Link>
-            <Link
-              href="/dashboard/qualidade"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "rounded-xl px-4 font-semibold",
-              )}
-            >
-              <ShieldCheck className="mr-2 size-4" aria-hidden="true" />
-              Qualidade dos dados
-            </Link>
-            <Link
-              href="/dashboard/importar"
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "rounded-xl bg-black px-4 font-semibold text-white hover:bg-zinc-900",
-              )}
-            >
-              <UploadCloud className="mr-2 size-4" aria-hidden="true" />
-              Importar dados
-            </Link>
-            <form action={logout}>
-              <Button type="submit" variant="ghost">
-                Sair
-              </Button>
-            </form>
-          </div>
-        </header>
+    <div className="flex flex-col">
+      <header className="sticky top-0 z-10 border-b border-[#e2e8f0] bg-[#eef2f7]/85 px-8 py-6 backdrop-blur-sm">
+        <h1 className="text-xl font-extrabold tracking-tight">
+          Visão geral
+        </h1>
+        <p className="mt-0.5 text-sm text-zinc-500">
+          Bem-vindo, {user?.name ?? "operador"}.
+        </p>
+      </header>
 
-        <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-col gap-6 p-8">
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <Kpi label="Em fila" value={kpis.queueTotal} />
           <Kpi label="Pacientes" value={kpis.patients} />
           <Kpi label="Agendados" value={kpis.scheduled} />
@@ -121,8 +40,8 @@ export default async function DashboardPage() {
           <Kpi label="Cancelamentos" value={kpis.cancellations} />
         </section>
 
-        <section className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
-          <h2 className="text-sm font-semibold text-zinc-900">
+        <section className="rounded-[20px] border border-[#eaeff5] bg-white p-6 shadow-[0_1px_3px_rgba(15,27,42,0.04)]">
+          <h2 className="text-sm font-bold text-zinc-900">
             Fila por especialidade
           </h2>
           {bySpecialty.length === 0 ? (
@@ -146,6 +65,6 @@ export default async function DashboardPage() {
           )}
         </section>
       </div>
-    </main>
+    </div>
   );
 }
