@@ -78,9 +78,6 @@ export function DashboardSidebar() {
             <span className="text-white">Pulso</span>
             <span className="text-[#2dd4bf]">Viva</span>
           </div>
-          <div className="mt-[3px] text-[9.5px] font-semibold tracking-[1.4px] text-[#5e7689]">
-            GESTÃO DE ACESSO EM SAÚDE
-          </div>
         </div>
       </div>
 

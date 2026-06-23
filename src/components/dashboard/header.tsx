@@ -37,7 +37,6 @@ export async function DashboardHeader({
         userEmail={userEmail}
         roleLabel={userRoleLabel}
         lastLoginText={formatLastLogin(activity.lastLoginAt)}
-        loginCount={activity.loginCount}
       />
     </header>
   );

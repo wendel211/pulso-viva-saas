@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  Activity,
-  ChevronDown,
-  Clock,
-  LogOut,
-  Mail,
-  ShieldCheck,
-} from "lucide-react";
+import { ChevronDown, Clock, LogOut, Mail, ShieldCheck } from "lucide-react";
 
 import { logout } from "@/lib/actions/auth";
 
@@ -17,7 +10,6 @@ type UserMenuProps = {
   userEmail: string;
   roleLabel: string;
   lastLoginText: string;
-  loginCount: number;
 };
 
 export function UserMenu({
@@ -25,7 +17,6 @@ export function UserMenu({
   userEmail,
   roleLabel,
   lastLoginText,
-  loginCount,
 }: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -62,16 +53,20 @@ export function UserMenu({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex items-center gap-2.5 rounded-full border border-transparent py-1 pl-1 pr-2.5 transition-colors hover:bg-slate-100"
+        className={`group flex items-center gap-2.5 rounded-full border bg-white py-1 pl-1 pr-3 shadow-sm transition-all duration-200 hover:-translate-y-px hover:shadow-md active:translate-y-0 ${
+          open
+            ? "border-[#2dd4bf] ring-2 ring-[#2dd4bf]/20"
+            : "border-slate-200 hover:border-[#2dd4bf]/60"
+        }`}
       >
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#2dd4bf] to-[#0a9f93] text-[13px] font-bold tracking-[.3px] text-white shadow-sm">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#2dd4bf] to-[#0a9f93] text-[13px] font-bold tracking-[.3px] text-white shadow-sm ring-2 ring-white">
           {initials}
         </span>
-        <span className="hidden text-[13.5px] font-semibold text-slate-800 sm:block">
+        <span className="hidden text-[13.5px] font-semibold text-slate-800 transition-colors group-hover:text-[#0a9f93] sm:block">
           {userName}
         </span>
         <ChevronDown
-          className={`size-4 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`size-4 transition-transform duration-200 ${open ? "rotate-180 text-[#0a9f93]" : "text-slate-400 group-hover:text-[#0a9f93]"}`}
           aria-hidden="true"
         />
       </button>
@@ -101,9 +96,6 @@ export function UserMenu({
             </InfoRow>
             <InfoRow icon={<Clock className="size-4" />} label="Último acesso">
               {lastLoginText}
-            </InfoRow>
-            <InfoRow icon={<Activity className="size-4" />} label="Total de acessos">
-              {loginCount}
             </InfoRow>
           </div>
 
