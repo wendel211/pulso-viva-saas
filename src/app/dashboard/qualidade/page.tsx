@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { ArrowLeft, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { AlertTriangle, CheckCircle2 } from "lucide-react";
 
 import { getDataQualityReport, type QualityIssue } from "@/lib/queries/data-quality";
 
@@ -26,16 +25,9 @@ export default async function DataQualityPage() {
   const clean = report.issues.every((i) => i.count === 0);
 
   return (
-    <main className="min-h-screen bg-[#eef2f7] px-6 py-10 text-zinc-950">
+    <div className="p-8">
       <div className="mx-auto max-w-3xl">
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900"
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" /> Voltar ao dashboard
-        </Link>
-
-        <div className="mt-4 flex items-end justify-between">
+        <div className="flex items-end justify-between">
           <div>
             <h1 className="text-2xl font-semibold">Qualidade dos dados</h1>
             <p className="mt-1 text-sm text-zinc-600">
@@ -93,6 +85,6 @@ export default async function DataQualityPage() {
           </ul>
         )}
       </div>
-    </main>
+    </div>
   );
 }
