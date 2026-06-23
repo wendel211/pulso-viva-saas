@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 
 import { getRiskList } from "@/lib/queries/risk";
 import { RiskRecalculateButton } from "@/components/risk-recalculate-button";
@@ -60,16 +58,9 @@ export default async function RiskPage() {
   const medium = rows.filter((r) => r.band === "medium").length;
 
   return (
-    <main className="min-h-screen bg-[#eef2f7] px-6 py-10 text-zinc-950">
+    <div className="p-8">
       <div className="mx-auto max-w-5xl">
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-1 text-sm text-zinc-600 hover:text-zinc-900"
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" /> Voltar ao dashboard
-        </Link>
-
-        <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h1 className="text-2xl font-semibold">Risco de falta</h1>
             <p className="mt-1 text-sm text-zinc-600">
@@ -135,6 +126,6 @@ export default async function RiskPage() {
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }
