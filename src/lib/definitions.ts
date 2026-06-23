@@ -19,31 +19,22 @@ export type LoginFormState =
     }
   | undefined;
 
-/** Schema de cadastro de organização (RF02). */
-export const SignupFormSchema = z.object({
-  organizationName: z
-    .string()
-    .min(2, { message: "Informe o nome da organização." })
-    .trim(),
-  managerName: z
-    .string()
-    .min(2, { message: "Informe seu nome." })
-    .trim(),
+/** Schema de convite de usuário (RF12). */
+export const InviteUserSchema = z.object({
+  name: z.string().min(2, { message: "Informe o nome." }).trim(),
   email: z.string().email({ message: "Informe um e-mail válido." }).trim(),
-  password: z
-    .string()
-    .min(8, { message: "A senha deve ter pelo menos 8 caracteres." })
-    .regex(/[a-zA-Z]/, { message: "A senha deve conter ao menos uma letra." })
-    .regex(/[0-9]/, { message: "A senha deve conter ao menos um número." }),
+  role: z.enum(["org_manager", "operator", "analyst", "dpo_auditor"], {
+    message: "Selecione um papel válido.",
+  }),
 });
 
-export type SignupFormState =
+export type InviteUserState =
   | {
+      ok?: boolean;
       errors?: {
-        organizationName?: string[];
-        managerName?: string[];
+        name?: string[];
         email?: string[];
-        password?: string[];
+        role?: string[];
       };
       message?: string;
     }
