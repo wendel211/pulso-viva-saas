@@ -1,3 +1,14 @@
+import Link from "next/link";
+import {
+  Activity,
+  CalendarCheck,
+  Download,
+  Gauge,
+  HeartPulse,
+  ShieldCheck,
+  UploadCloud,
+} from "lucide-react";
+
 import { getCurrentUser } from "@/lib/dal";
 import { getDashboardKpis, getQueueBySpecialty } from "@/lib/queries/dashboard";
 
@@ -40,10 +51,19 @@ export default async function DashboardPage() {
           <Kpi label="Cancelamentos" value={kpis.cancellations} />
         </section>
 
-        <section className="rounded-[20px] border border-[#eaeff5] bg-white p-6 shadow-[0_1px_3px_rgba(15,27,42,0.04)]">
-          <h2 className="text-sm font-bold text-zinc-900">
-            Fila por especialidade
-          </h2>
+        <section className="mt-8 rounded-2xl border border-black/5 bg-white p-6 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-zinc-900">
+              Fila por especialidade
+            </h2>
+            <a
+              href="/api/export/queue"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0a9f93] hover:text-[#08978d]"
+            >
+              <Download className="size-3.5" aria-hidden="true" />
+              Exportar tudo (CSV)
+            </a>
+          </div>
           {bySpecialty.length === 0 ? (
             <p className="mt-3 text-sm text-zinc-500">
               Nenhum dado ainda. Comece importando uma planilha.
@@ -58,7 +78,20 @@ export default async function DashboardPage() {
                   <span className="text-zinc-700">
                     {r.specialty ?? "Sem especialidade"}
                   </span>
-                  <span className="font-semibold text-zinc-950">{r.total}</span>
+                  <span className="flex items-center gap-3">
+                    <span className="font-semibold text-zinc-950">
+                      {r.total}
+                    </span>
+                    {r.specialty ? (
+                      <a
+                        href={`/api/export/queue?specialty=${encodeURIComponent(r.specialty)}`}
+                        className="text-zinc-400 hover:text-[#0a9f93]"
+                        title="Exportar esta especialidade"
+                      >
+                        <Download className="size-3.5" aria-hidden="true" />
+                      </a>
+                    ) : null}
+                  </span>
                 </li>
               ))}
             </ul>
