@@ -14,6 +14,7 @@ import {
   type CandidateInput,
   type RankedCandidate,
 } from "@/lib/ranking/engine";
+import { getRankingWeights } from "@/lib/queries/settings";
 
 export type OpenSlot = {
   appointmentId: string;
@@ -55,6 +56,7 @@ export async function getRankedCandidates(
   vacancySpecialty: string | null,
 ): Promise<RankedCandidate[]> {
   const { organizationId } = await verifySession();
+  const weights = await getRankingWeights();
 
   // Pacientes em fila = solicitações sem agendamento confirmado/atendido.
   const rows = await db
@@ -130,8 +132,9 @@ export async function getRankedCandidates(
     return rankCandidates(
       allRows.map((r) => ({ ...r, riskScore: r.riskScore })),
       vacancySpecialty,
+      weights,
     );
   }
 
-  return rankCandidates(candidates, vacancySpecialty);
+  return rankCandidates(candidates, vacancySpecialty, weights);
 }
