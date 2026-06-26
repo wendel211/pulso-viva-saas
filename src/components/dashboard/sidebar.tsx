@@ -6,9 +6,11 @@ import {
   Activity,
   CalendarCheck,
   Gauge,
+  HeartHandshake,
   HeartPulse,
   LayoutDashboard,
   ListChecks,
+  Scale,
   Settings,
   ShieldCheck,
   UploadCloud,
@@ -26,6 +28,8 @@ const OPERATION_ITEMS: NavItem[] = [
 
 const INTELLIGENCE_ITEMS: NavItem[] = [
   { label: "Risco de falta", href: "/dashboard/risco", icon: Activity },
+  { label: "Reativação / busca ativa", href: "/dashboard/reativacao", icon: HeartHandshake },
+  { label: "Equidade de acesso", href: "/dashboard/equidade", icon: Scale },
   { label: "Previsão de gargalo", href: "/dashboard/gargalos", icon: Gauge },
   { label: "Impacto sustentável", href: "/dashboard/impacto", icon: HeartPulse },
   { label: "Configurações", href: "/dashboard/configuracoes", icon: Settings },
