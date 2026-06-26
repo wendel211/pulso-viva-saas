@@ -87,6 +87,10 @@ export type OrgSettings = {
     reliability: number;
     contact: number;
   };
+  /** Perfil de operação: muda o enquadramento de métricas e linguagem. */
+  segment?: "publico" | "privado";
+  /** Valor médio estimado por vaga, em centavos (custo preservado / ROI). */
+  slotValueCents?: number;
 };
 
 export const organizations = pgTable("organizations", {

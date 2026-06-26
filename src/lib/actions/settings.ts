@@ -10,6 +10,60 @@ import { verifySession } from "@/lib/dal";
 export type SettingsState = { ok?: boolean; message?: string } | undefined;
 
 /**
+ * Atualiza o perfil da organização: segmento (público/privado) e valor médio
+ * da vaga (usado no cálculo de receita/custo preservado).
+ */
+export async function updateOrgProfile(
+  _state: SettingsState,
+  formData: FormData,
+): Promise<SettingsState> {
+  const session = await verifySession();
+  if (!["org_manager", "admin_pulsoviva"].includes(session.role)) {
+    return { ok: false, message: "Apenas gestores podem alterar o perfil." };
+  }
+
+  const segmentRaw = formData.get("segment");
+  const segment = segmentRaw === "publico" ? "publico" : "privado";
+
+  const reais = Number(formData.get("slotValue"));
+  if (Number.isNaN(reais) || reais < 0 || reais > 100000) {
+    return { ok: false, message: "Informe um valor de vaga válido (em reais)." };
+  }
+  const slotValueCents = Math.round(reais * 100);
+
+  const orgId = session.organizationId;
+  const existing = await db
+    .select({ settings: organizations.settings })
+    .from(organizations)
+    .where(eq(organizations.id, orgId))
+    .limit(1);
+
+  await db
+    .update(organizations)
+    .set({
+      settings: {
+        ...(existing[0]?.settings ?? {}),
+        segment,
+        slotValueCents,
+      },
+    })
+    .where(eq(organizations.id, orgId));
+
+  await db.insert(auditLogs).values({
+    organizationId: orgId,
+    userId: session.userId,
+    action: "update_settings",
+    resource: "org_profile",
+    metadata: { segment, slotValueCents },
+  });
+
+  revalidatePath("/dashboard/configuracoes");
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/impacto");
+  return { ok: true, message: "Perfil atualizado." };
+}
+
+/**
  * Atualiza os pesos do ranking de encaixe (RF17), com limites seguros:
  * cada peso entre 0 e 1, normalizado para somar 1 (evita pesos degenerados).
  */
