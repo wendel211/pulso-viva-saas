@@ -1,11 +1,13 @@
 import { getCurrentUser } from "@/lib/dal";
-import { getRankingWeights } from "@/lib/queries/settings";
+import { getRankingWeights, getOrgProfile } from "@/lib/queries/settings";
 import { RankingWeightsForm } from "@/components/ranking-weights-form";
+import { OrgProfileForm } from "@/components/org-profile-form";
 
 export default async function SettingsPage() {
-  const [user, weights] = await Promise.all([
+  const [user, weights, profile] = await Promise.all([
     getCurrentUser(),
     getRankingWeights(),
+    getOrgProfile(),
   ]);
 
   const canEdit =
@@ -20,6 +22,29 @@ export default async function SettingsPage() {
         </p>
 
         <section className="mt-8 rounded-[20px] border border-[#eaeff5] bg-white p-7 shadow-[0_1px_3px_rgba(15,27,42,0.04)]">
+          <h2 className="text-base font-bold text-zinc-900">
+            Perfil da organização
+          </h2>
+          <p className="mt-1 text-sm text-zinc-600">
+            Define o enquadramento das métricas e a linguagem do produto. A
+            inteligência por baixo é a mesma; muda a lente de valor.
+          </p>
+
+          <div className="mt-6">
+            {canEdit ? (
+              <OrgProfileForm
+                segment={profile.segment}
+                slotValueReais={profile.slotValueCents / 100}
+              />
+            ) : (
+              <p className="rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-800">
+                Apenas gestores podem alterar o perfil da organização.
+              </p>
+            )}
+          </div>
+        </section>
+
+        <section className="mt-6 rounded-[20px] border border-[#eaeff5] bg-white p-7 shadow-[0_1px_3px_rgba(15,27,42,0.04)]">
           <h2 className="text-base font-bold text-zinc-900">
             Pesos do ranking de encaixe
           </h2>

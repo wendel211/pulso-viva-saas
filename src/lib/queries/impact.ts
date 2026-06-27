@@ -4,13 +4,7 @@ import { and, eq, count } from "drizzle-orm";
 import { db } from "@/db";
 import { actionTasks, appointments } from "@/db/schema";
 import { verifySession } from "@/lib/dal";
-
-/**
- * Valor médio estimado por vaga, usado para calcular custo preservado
- * (doc §16). MVP usa um valor fixo; evolui para configurável por
- * organização/procedimento (RF17).
- */
-const AVG_SLOT_VALUE_CENTS = 15000; // R$ 150,00
+import { getOrgProfile } from "@/lib/queries/settings";
 
 export type SustainableImpact = {
   recoveredSlots: number;
@@ -78,8 +72,8 @@ export async function getSustainableImpact(): Promise<SustainableImpact> {
   const capacityUsedPercent =
     total > 0 ? Math.round((attended / total) * 100) : 0;
 
-  const preservedCostCents =
-    (recoveredSlots + avoidedNoShows) * AVG_SLOT_VALUE_CENTS;
+  const { slotValueCents } = await getOrgProfile();
+  const preservedCostCents = (recoveredSlots + avoidedNoShows) * slotValueCents;
 
   return {
     recoveredSlots,

@@ -13,6 +13,7 @@ import {
   Scale,
   Settings,
   ShieldCheck,
+  Sparkles,
   UploadCloud,
 } from "lucide-react";
 
@@ -20,6 +21,7 @@ type NavItem = { label: string; href: string; icon: React.ComponentType<{ classN
 
 const OPERATION_ITEMS: NavItem[] = [
   { label: "Painel geral", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Plano de ação", href: "/dashboard/recomendacoes", icon: Sparkles },
   { label: "Filas", href: "/dashboard/filas", icon: ListChecks },
   { label: "Importar dados", href: "/dashboard/importar", icon: UploadCloud },
   { label: "Qualidade dos dados", href: "/dashboard/qualidade", icon: ShieldCheck },
