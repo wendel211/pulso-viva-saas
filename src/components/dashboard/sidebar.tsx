@@ -42,9 +42,9 @@ function NavLink({ item, active }: { item: NavItem; active: boolean }) {
   return (
     <Link
       href={item.href}
-      className={`flex items-center gap-3 rounded-[11px] px-3 py-2.5 text-[13.5px] font-semibold transition-colors ${
+      className={`flex items-center gap-3 rounded-[10px] px-3 py-2 text-[13px] font-semibold transition-colors ${
         active
-          ? "bg-[#22d6c8] text-[#06212a]"
+          ? "bg-[#22d6c8] text-[#06212a] shadow-[0_4px_14px_rgba(34,214,200,0.25)]"
           : "text-[#9fb2c2] hover:bg-white/5 hover:text-white"
       }`}
     >
@@ -56,7 +56,7 @@ function NavLink({ item, active }: { item: NavItem; active: boolean }) {
 
 function GroupLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="px-3 pb-2 text-[10px] font-bold tracking-[1.3px] text-[#4d6175]">
+    <div className="px-3 pb-1.5 pt-1 text-[10px] font-bold tracking-[1.3px] text-[#4d6175]">
       {children}
     </div>
   );
@@ -87,13 +87,13 @@ export function DashboardSidebar() {
         </div>
       </div>
 
-      <nav className="mt-[30px] flex flex-col gap-[3px] overflow-y-auto">
+      <nav className="mt-6 flex min-h-0 flex-1 flex-col gap-0.5">
         <GroupLabel>OPERAÇÃO</GroupLabel>
         {OPERATION_ITEMS.map((item) => (
           <NavLink key={item.href} item={item} active={pathname === item.href} />
         ))}
 
-        <div className="pt-[22px]">
+        <div className="pt-4">
           <GroupLabel>INTELIGÊNCIA</GroupLabel>
         </div>
         {INTELLIGENCE_ITEMS.map((item) => (
