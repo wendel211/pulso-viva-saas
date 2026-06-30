@@ -6,7 +6,7 @@ import {
   CalendarClock,
   CalendarX2,
   Download,
-  Sparkles,
+  Target,
   UserRound,
   Users,
 } from "lucide-react";
@@ -70,8 +70,10 @@ export default async function DashboardPage() {
   return (
     <div className="flex flex-col">
       <div className="px-8 pt-8">
-        <h1 className="text-2xl font-semibold tracking-tight">Visão geral</h1>
-        <p className="mt-0.5 text-sm text-zinc-500">
+        <h1 className="text-[2rem] font-bold leading-tight tracking-tight text-zinc-950">
+          Visão geral
+        </h1>
+        <p className="mt-1 text-sm text-zinc-500">
           Bem-vindo, {user?.name ?? "operador"}. Aqui está o pulso da sua
           operação.
         </p>
@@ -91,8 +93,8 @@ export default async function DashboardPage() {
           <div className="flex flex-col rounded-[20px] border border-[#eaeff5] bg-white p-6 shadow-[0_1px_3px_rgba(15,27,42,0.04)]">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="flex size-8 items-center justify-center rounded-lg bg-[#e6fbf8] text-[#0a9f93]">
-                  <Sparkles className="size-4" aria-hidden="true" />
+                <span className="flex size-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#22d6c8] to-[#0a9f93] text-white shadow-sm">
+                  <Target className="size-4" aria-hidden="true" />
                 </span>
                 <h2 className="text-[15px] font-bold text-zinc-900">
                   Plano de ação

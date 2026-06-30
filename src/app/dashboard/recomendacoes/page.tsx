@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Target } from "lucide-react";
 
 import { getRecommendations } from "@/lib/queries/recomendacoes";
 import type { Recommendation } from "@/lib/recomendacoes/engine";
@@ -29,8 +29,8 @@ export default async function RecommendationsPage() {
     <div className="p-8">
       <div className="mx-auto max-w-3xl">
         <div className="flex items-start gap-3">
-          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#e6fbf8] text-[#0a9f93]">
-            <Sparkles className="size-5" aria-hidden="true" />
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#22d6c8] to-[#0a9f93] text-white shadow-sm">
+            <Target className="size-5" aria-hidden="true" />
           </span>
           <div>
             <h1 className="text-2xl font-semibold">Plano de ação</h1>
