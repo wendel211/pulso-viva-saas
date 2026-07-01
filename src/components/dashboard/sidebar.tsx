@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   ListChecks,
   Scale,
+  Send,
   Settings,
   ShieldCheck,
   Target,
@@ -26,6 +27,7 @@ const OPERATION_ITEMS: NavItem[] = [
   { label: "Importar dados", href: "/dashboard/importar", icon: UploadCloud },
   { label: "Qualidade dos dados", href: "/dashboard/qualidade", icon: ShieldCheck },
   { label: "Encaixe inteligente", href: "/dashboard/encaixe", icon: CalendarCheck },
+  { label: "Confirmação ativa", href: "/dashboard/confirmacoes", icon: Send },
 ];
 
 const INTELLIGENCE_ITEMS: NavItem[] = [
